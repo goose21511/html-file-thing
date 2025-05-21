@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WIP Cool Page Thingy</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff0000, #006eff);
+      font-family: 'Segoe UI', sans-serif;
+      color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: background 1s ease;
+      padding: 1rem;
+    }
+
+    body.dark-mode {
+      background: linear-gradient(135deg, #660000, #003366);
+      color: #fff;
+    }
+
+    .container {
+      background: linear-gradient(135deg, rgb(44, 44, 44), rgb(51, 51, 51));
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      animation: fadeSlideIn 1s ease-out forwards;
+      opacity: 0;
+      transform: translateY(30px);
+      z-index: 10;
+      color: #fff;
+      cursor: default;
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      animation: fadeUp 1s ease-out 0.3s forwards;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    p {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      animation: fadeUp 1s ease-out 0.5s forwards;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    a.button {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: #f5007acc;
+      color: #fff;
+      border: 1px solid #ffffffcc;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: background 0.3s;
+      user-select: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    a.button:hover {
+      background: #97004ccc;
+    }
+
+    button.toggle-theme {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      padding: 0.4rem 1rem;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      background: #ffffffaa;
+      color: #001e44;
+      font-weight: bold;
+      user-select: none;
+      transition: background 0.3s, color 0.3s;
+      font-size: 0.9rem;
+    }
+
+    body.dark-mode button.toggle-theme {
+      background: #001e44cc;
+      color: #fff;
+    }
+
+    @keyframes buttonShrinkBounce {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(0.85);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    a.button.shrink-anim {
+      animation: buttonShrinkBounce 0.3s ease forwards;
+    }
+
+    @keyframes fadeSlideIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .plop {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: scale(0);
+      animation: plopAnim 0.6s ease forwards;
+      filter: drop-shadow(0 0 4px #76ffcb);
+      mix-blend-mode: screen;
+      z-index: 5;
+    }
+
+    @keyframes plopAnim {
+      0% {
+        transform: scale(0);
+        opacity: 0.7;
+      }
+      50% {
+        transform: scale(1.3);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(1.6);
+        opacity: 0;
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      p {
+        font-size: 0.95rem;
+      }
+
+      a.button {
+        font-size: 0.9rem;
+        padding: 0.6rem 1.2rem;
+      }
+
+      .container {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="toggle-theme">Toggle Dark Mode</button>
+
+  <div class="container">
+    <h1 id="greeting">Welcome!</h1>
+    <p>Super cool html thing :O</p>
+    <a class="button" href="#">button cool</a>
+  </div>
+
+  <script>
+    /* Dynamic greeting time ranges:
+      5:00 - 11:59  = Good morning
+      12:00 - 16:59 = Good afternoon
+      17:00 - 20:59 = Good evening
+      21:00 - 4:59  = Good night
+    */
+    function updateGreeting() {
+      const hour = new Date().getHours();
+      let greeting = "Welcome!";
+      if (hour >= 5 && hour < 12) greeting = "Good morning!";
+      else if (hour >= 12 && hour < 17) greeting = "Good afternoon!";
+      else if (hour >= 17 && hour < 21) greeting = "Good evening!";
+      else greeting = "Good night!";
+      document.getElementById('greeting').textContent = greeting;
+    }
+    updateGreeting();
+
+    document.body.addEventListener('click', e => {
+      if (e.target.closest('.container')) return;
+      if (e.target.classList.contains('toggle-theme')) return;
+      const plop = document.createElement('div');
+      plop.classList.add('plop');
+      plop.style.left = `${e.clientX - 30}px`;
+      plop.style.top = `${e.clientY - 30}px`;
+      document.body.appendChild(plop);
+      plop.addEventListener('animationend', () => plop.remove());
+    });
+
+    const button = document.querySelector('a.button');
+    button.addEventListener('click', e => {
+      e.preventDefault();
+      button.classList.add('shrink-anim');
+      button.addEventListener('animationend', () => {
+        button.classList.remove('shrink-anim');
+      }, { once: true });
+    });
+
+    const toggleBtn = document.querySelector('button.toggle-theme');
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+    });
+  </script>
+
+</body>
+</html>
